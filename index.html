@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>24 - The Number Hub</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: var(--primary);
+        }
+
+        .card-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+
+        .calculator {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: var(--dark);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .calculator-display {
+            background-color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            text-align: right;
+            font-size: 1.5rem;
+        }
+
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calculator-btn {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calculator-btn:hover {
+            background-color: #2c3e50;
+            transform: translateY(-2px);
+        }
+
+        .calculator-btn.operator {
+            background-color: var(--primary);
+        }
+
+        .calculator-btn.equals {
+            background-color: var(--secondary);
+            grid-column: span 2;
+        }
+
+        .calculator-btn.clear {
+            background-color: var(--accent);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .bar {
+            position: absolute;
+            bottom: 0;
+            width: 40px;
+            background-color: var(--primary);
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .bar:hover {
+            background-color: var(--secondary);
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            width: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            width: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .clock {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: white;
+            margin: 2rem auto;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .clock-face {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .clock-hand {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: 50% 0;
+            background-color: var(--dark);
+            border-radius: 4px;
+        }
+
+        .hour-hand {
+            width: 6px;
+            height: 60px;
+            margin-left: -3px;
+        }
+
+        .minute-hand {
+            width: 4px;
+            height: 80px;
+            margin-left: -2px;
+            background-color: var(--primary);
+        }
+
+        .second-hand {
+            width: 2px;
+            height: 90px;
+            margin-left: -1px;
+            background-color: var(--accent);
+        }
+
+        .clock-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background-color: var(--dark);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .timer {
+            font-size: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            
+            nav a {
+                margin-bottom: 0.5rem;
+            }
+            
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .calculator {
+                padding: 1rem;
+            }
+            
+            .calculator-btn {
+                padding: 0.75rem;
+                font-size: 1rem;
+            }
+            
+            .clock {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .hour-hand {
+                height: 45px;
+            }
+            
+            .minute-hand {
+                height: 60px;
+            }
+            
+            .second-hand {
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>24</h1>
+        <p>Exploring the Number 24 in Different Ways</p>
+        <nav>
+            <a href=\"#facts\">Facts</a>
+            <a href=\"#calculator\">Calculator</a>
+            <a href=\"#data\">Data</a>
+            <a href=\"#time\">Time</a>
+            <a href=\"#game\">Game</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id=\"facts\">
+            <h2>Interesting Facts About 24</h2>
+            <p>The number 24 has many fascinating properties and appears in various contexts throughout mathematics, science, and everyday life.</p>
+            
+            <div class=\"card-container\">
+                <div class=\"card\">
+                    <h3>Mathematics</h3>
+                    <div class=\"card-number\">24</div>
+                    <p>24 is a highly composite number with 8 divisors: 1, 2, 3, 4, 6, 8, 12, and 24.</p>
+                    <button class=\"btn\" onclick=\"showMoreInfo('math')\">Learn More</button>
+                </div>
+                
+                <div class=\"card\">
+                    <h3>Time</h3>
+                    <div class=\"card-number\">24</div>
+                    <p>There are 24 hours in a day, making it a fundamental unit in measuring time.</p>
+                    <button class=\"btn btn-secondary\" onclick=\"showMoreInfo('time')\">Learn More</button>
+                </div>
+                
+                <div class=\"card\">
+                    <h3>Chemistry</h3>
+                    <div class=\"card-number\">24</div>
+                    <p>24 is the atomic number of chromium (Cr), a transition metal.</p>
+                    <button class=\"btn btn-accent\" onclick=\"showMoreInfo('chemistry')\">Learn More</button>
+                </div>
+                
+                <div class=\"card\">
+                    <h3>Culture</h3>
+                    <div class=\"card-number\">24</div>
+                    <p>24 carats represents pure gold in jewelry measurement.</p>
+                    <button class=\"btn\" onclick=\"showMoreInfo('culture')\">Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <section id=\"calculator\">
+            <h2>24 Calculator</h2>
+            <p>Use this calculator to perform operations with 24.</p>
+            
+            <div class=\"calculator\">
+                <div class=\"calculator-display\" id=\"calc-display\">0</div>
+                <div class=\"calculator-buttons\">
+                    <button class=\"calculator-btn clear\" onclick=\"clearCalculator()\">C</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('(')\">(</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator(')')\">)</button>
+                    <button class=\"calculator-btn operator\" onclick=\"appendToCalculator('/')\">/</button>
+                    
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('7')\">7</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('8')\">8</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('9')\">9</button>
+                    <button class=\"calculator-btn operator\" onclick=\"appendToCalculator('*')\">×</button>
+                    
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('4')\">4</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('5')\">5</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('6')\">6</button>
+                    <button class=\"calculator-btn operator\" onclick=\"appendToCalculator('-')\">-</button>
+                    
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('1')\">1</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('2')\">2</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('3')\">3</button>
+                    <button class=\"calculator-btn operator\" onclick=\"appendToCalculator('+')\">+</button>
+                    
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('0')\">0</button>
+                    <button class=\"calculator-btn\" onclick=\"appendToCalculator('.')\">.</button>
+                    <button class=\"calculator-btn equals\" onclick=\"calculateResult()\">=</button>
+                </div>
+            </div>
+            
+            <div style=\"text-align: center; margin-top: 1rem;\">
+                <button class=\"btn\" onclick=\"add24()\">Add 24</button>
+                <button class=\"btn btn-secondary\" onclick=\"multiply24()\">Multiply by 24</button>
+                <button class=\"btn btn-accent\" onclick=\"divide24()\">Divide by 24</button>
+            </div>
+        </section>
+
+        <section id=\"data\">
+            <h2>24 in Data</h2>
+            <p>Explore how the number 24 appears in different datasets and contexts.</p>
+            
+            <h3>Divisibility Table</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Is Divisible by 24?</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id=\"divisibility-table\">
+                    <!-- Table data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <h3>Multiples of 24 Chart</h3>
+            <div class=\"chart-container\" id=\"multiples-chart\">
+                <!-- Chart will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <section id=\"time\">
+            <h2>24-Hour Clock</h2>
+            <p>The 24-hour clock, also known as military time, is a convention of timekeeping in which the day runs from midnight to midnight and is divided into 24 hours.</p>
+            
+            <div class=\"clock\">
+                <div class=\"clock-face\">
+                    <div class=\"clock-hand hour-hand\" id=\"hour-hand\"></div>
+                    <div class=\"clock-hand minute-hand\" id=\"minute-hand\"></div>
+                    <div class=\"clock-hand second-hand\" id=\"second-hand\"></div>
+                    <div class=\"clock-center\"></div>
+                </div>
+            </div>
+            
+            <div class=\"timer\" id=\"digital-clock\">00:00:00</div>
+            
+            <h3>24-Second Timer</h3>
+            <div class=\"timer\" id=\"countdown-timer\">24</div>
+            <div class=\"timer-controls\">
+                <button class=\"btn\" id=\"start-timer\">Start</button>
+                <button class=\"btn btn-secondary\" id=\"reset-timer\">Reset</button>
+            </div>
+        </section>
+
+        <section id=\"game\">
+            <h2>24 Game</h2>
+            <p>Try to make 24 using the four numbers below and basic arithmetic operations (+, -, ×, ÷). Each number must be used exactly once.</p>
+            
+            <div class=\"card-container\" id=\"game-cards\">
+                <!-- Game cards will be populated by JavaScript -->
+            </div>
+            
+            <div style=\"text-align: center; margin-top: 2rem;\">
+                <div class=\"calculator-display\" id=\"game-input\">Enter your solution</div>
+                <div style=\"margin: 1rem 0;\">
+                    <button class=\"btn\" onclick=\"checkSolution()\">Check Solution</button>
+                    <button class=\"btn btn-secondary\" onclick=\"newGame()\">New Numbers</button>
+                    <button class=\"btn btn-accent\" onclick=\"showSolution()\">Show Solution</button>
+                </div>
+                <p id=\"game-result\"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 Number 24 Hub</p>
+        <p>All about the fascinating properties of the number 24</p>
+        <div class=\"social-links\">
+            <a href=\"#\" title=\"Facebook\">f</a>
+            <a href=\"#\" title=\"Twitter\">t</a>
+            <a href=\"#\" title=\"Instagram\">i</a>
+            <a href=\"#\" title=\"LinkedIn\">in</a>
+        </div>
+    </footer>
+
+    <script>
+        // Calculator functionality
+        let calculatorDisplay = document.getElementById('calc-display');
+        let currentInput = '0';
+
+        function updateCalculatorDisplay() {
+            calculatorDisplay.textContent = currentInput;
+        }
+
+        function appendToCalculator(value) {
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            updateCalculatorDisplay();
+        }
+
+        function clearCalculator() {
+            currentInput = '0';
+            updateCalculatorDisplay();
+        }
+
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput).toString();
+                updateCalculatorDisplay();
+            } catch (error) {
+                currentInput = 'Error';
+                updateCalculatorDisplay();
+                setTimeout(clearCalculator, 1500);
+            }
+        }
+
+        function add24() {
+            try {
+                let current = eval(currentInput) || 0;
+                currentInput = (current + 24).toString();
+                updateCalculatorDisplay();
+            } catch (error) {
+                clearCalculator();
+            }
+        }
+
+        function multiply24() {
+            try {
+                let current = eval(currentInput) || 0;
+                currentInput = (current * 24).toString();
+                updateCalculatorDisplay();
+            } catch (error) {
+                clearCalculator();
+            }
+        }
+
+        function divide24() {
+            try {
+                let current = eval(currentInput) || 0;
+                currentInput = (current / 24).toString();
+                updateCalculatorDisplay();
+            } catch (error) {
+                clearCalculator();
+            }
+        }
+
+        // Divisibility table
+        function populateDivisibilityTable() {
+            const table = document.getElementById('divisibility-table');
+            table.innerHTML = '';
+            
+            for (let i = 1; i <= 10; i++) {
+                const number = i * 24;
+                const row = document.createElement('tr');
+                
+                const numberCell = document.createElement('td');
+                numberCell.textContent = number;
+                row.appendChild(numberCell);
+                
+                const divisibleCell = document.createElement('td');
+                divisibleCell.textContent = 'Yes';
+                row.appendChild(divisibleCell);
+                
+                const resultCell = document.createElement('td');
+                resultCell.textContent = `${number} ÷ 24 = ${number / 24}`;
+                row.appendChild(resultCell);
+                
+                table.appendChild(row);
+            }
+        }
+
+        // Multiples chart
+        function createMultiplesChart() {
+            const chart = document.getElementById('multiples-chart');
+            chart.innerHTML = '';
+            
+            const maxValue = 10 * 24;
+            
+            for (let i = 1; i <= 10; i++) {
+                const value = i * 24;
+                const percentage = (value / maxValue) * 100;
+                
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${percentage}%`;
+                bar.style.left = `${(i - 1) * 10}%`;
+                
+                const label = document.createElement('div');
+                label.className = 'bar-label';
+                label.textContent = i;
+                
+                const valueLabel = document.createElement('div');
+                valueLabel.className = 'bar-value';
+                valueLabel.textContent = value;
+                
+                bar.appendChild(valueLabel);
+                bar.appendChild(label);
+                chart.appendChild(bar);
+            }
+        }
+
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            const hourDegrees = ((hours % 12) / 12) * 360 + ((minutes / 60) * 30);
+            const minuteDegrees = (minutes / 60) * 360 + ((seconds / 60) * 6);
+            const secondDegrees = (seconds / 60) * 360;
+            
+            document.getElementById('hour-hand').style.transform = `translateY(-50%) rotate(${hourDegrees}deg)`;
+            document.getElementById('minute-hand').style.transform = `translateY(-50%) rotate(${minuteDegrees}deg)`;
+            document.getElementById('second-hand').style.transform = `translateY(-50%) rotate(${secondDegrees}deg)`;
+            
+            // Update digital clock
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            
+            document.getElementById('digital-clock').textContent = 
+                `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            
+            setTimeout(updateClock, 1000);
+        }
+
+        // 24-second timer
+        let timerInterval;
+        let timerSeconds = 24;
+        
+        function updateTimer() {
+            document.getElementById('countdown-timer').textContent = timerSeconds;
+            
+            if (timerSeconds <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('countdown-timer').style.color = 'var(--accent)';
+            } else {
+                timerSeconds--;
+            }
+        }
+        
+        document.getElementById('start-timer').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            timerSeconds = 24;
+            document.getElementById('countdown-timer').style.color = 'inherit';
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        });
+        
+        document.getElementById('reset-timer').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            timerSeconds = 24;
+            document.getElementById('countdown-timer').textContent = timerSeconds;
+            document.getElementById('countdown-timer').style.color = 'inherit';
+        });
+
+        // 24 Game
+        let gameNumbers = [];
+        
+        function generateGameNumbers() {
+            gameNumbers = [];
+            const gameCards = document.getElementById('game-cards');
+            gameCards.innerHTML = '';
+            
+            for (let i = 0; i < 4; i++) {
+                const number = Math.floor(Math.random() * 9) + 1;
+                gameNumbers.push(number);
+                
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<div class=\"card-number\">${number}</div>`;
+                gameCards.appendChild(card);
+            }
+            
+            document.getElementById('game-input').textContent = 'Enter your solution';
+            document.getElementById('game-result').textContent = '';
+        }
+        
+        function checkSolution() {
+            const input = document.getElementById('game-input').textContent;
+            if (input === 'Enter your solution') {
+                document.getElementById('game-result').textContent = 'Please enter a solution first';
+                return;
+            }
+            
+            try {
+                const result = eval(input);
+                if (result === 24) {
+                    document.getElementById('game-result').textContent = 'Correct! 🎉';
+                    document.getElementById('game-result').style.color = 'var(--secondary)';
+                } else {
+                    document.getElementById('game-result').textContent = `Incorrect. Your expression equals ${result}, not 24.`;
+                    document.getElementById('game-result').style.color = 'var(--accent)';
+                }
+            } catch (error) {
+                document.getElementById('game-result').textContent = 'Invalid expression. Please try again.';
+                document.getElementById('game-result').style.color = 'var(--accent)';
+            }
+        }
+        
+        function newGame() {
+            generateGameNumbers();
+        }
+        
+        function showSolution() {
+            // This is a simplified solution finder that won't work for all cases
+            // In a real implementation, you would need a more sophisticated algorithm
+            document.getElementById('game-result').textContent = 'Finding a solution...';
+            
+            setTimeout(() => {
+                if (gameNumbers.includes(6) && gameNumbers.includes(4)) {
+                    document.getElementById('game-input').textContent = '6 * 4 = 24';
+                } else if (gameNumbers.includes(8) && gameNumbers.includes(3)) {
+                    document.getElementById('game-input').textContent = '8 * 3 = 24';
+                } else if (gameNumbers.includes(4) && gameNumbers.includes(6)) {
+                    document.getElementById('game-input').textContent = '4 * 6 = 24';
+                } else {
+                    document.getElementById('game-input').textContent = 
+                        `(${gameNumbers[0]} * ${gameNumbers[1]}) * (${gameNumbers[2]} / ${gameNumbers[3]})`;
+                }
+                document.getElementById('game-result').textContent = 'Here is one possible solution.';
+                document.getElementById('game-result').style.color = 'var(--primary)';
+            }, 1000);
+        }
+
+        // Info popup function
+        function showMoreInfo(topic) {
+            let message = '';
+            
+            switch (topic) {
+                case 'math':
+                    message = '24 is 4 factorial (4!). It is also equal to 2^3 * 3, making it a powerful number in mathematics.';
+                    break;
+                case 'time':
+                    message = 'The 24-hour clock has been used since ancient Egypt and is now the standard timekeeping convention in most countries.';
+                    break;
+                case 'chemistry':
+                    message = 'Chromium (atomic number 24) is a steely-gray, lustrous, hard metal that takes a high polish and has a high melting point.';
+                    break;
+                case 'culture':
+                    message = '24 appears in many cultural contexts, including the 24 elders in the Book of Revelation and the 24 solar terms in Chinese culture.';
+                    break;
+            }
+            
+            alert(message);
+        }
+
+        // Initialize all components when the page loads
+        window.onload = function() {
+            populateDivisibilityTable();
+            createMultiplesChart();
+            updateClock();
+            generateGameNumbers();
+            
+            // Make the game input editable
+            const gameInput = document.getElementById('game-input');
+            gameInput.addEventListener('click', function() {
+                if (this.textContent === 'Enter your solution') {
+                    this.textContent = '';
+                }
+            });
+            
+            gameInput.contentEditable = true;
+        };
+    </script>
+</body>
+</html>
